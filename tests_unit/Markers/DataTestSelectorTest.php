@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  */
 class DataTestSelectorTest extends TestCase {
 
-  public function dataFortestGroupManipulationProvider() {
+  public function dataForTestGroupManipulationProvider(): array {
     $tests = [];
     $tests[] = ['FOO', 'foo'];
     $tests[] = ['AppleBanana', 'apple_banana'];
@@ -25,17 +25,17 @@ class DataTestSelectorTest extends TestCase {
   }
 
   /**
-   * @dataProvider dataFortestGroupManipulationProvider
+   * @dataProvider dataForTestGroupManipulationProvider
    */
   public function testGroupNamingConventions(string $subject, string $expected) {
     $result = (new DataTestSelector())->setGroup($subject)
       ->setName('foo')
       ->getAttributeValue();
-    $this->assertSame("${expected}__foo", $result);
+    $this->assertSame("{$expected}__foo", $result);
   }
 
   /**
-   * @dataProvider dataFortestGroupManipulationProvider
+   * @dataProvider dataForTestGroupManipulationProvider
    */
   public function testNameNamingConventions(string $subject, string $expected) {
     $result = (new DataTestSelector())
