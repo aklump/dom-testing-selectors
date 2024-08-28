@@ -8,6 +8,7 @@ namespace AKlump\DomTestingSelectors\Handler;
 use AKlump\DomTestingSelectors\Exception\MismatchedHandlerException;
 use AKlump\DomTestingSelectors\Selector\ElementSelectorInterface;
 use DOMDocument;
+use DOMElement;
 use DOMXPath;
 
 /**
@@ -33,6 +34,10 @@ class StringHandler implements HandlerInterface {
     if ($nodeList->length !== 1) {
       return FALSE;
     }
+    $item = $nodeList->item(0);
+    if (!$item instanceof DOMElement) {
+      return FALSE;
+    }
 
     return TRUE;
   }
@@ -47,7 +52,9 @@ class StringHandler implements HandlerInterface {
     $nodeList = $xpath->query('//*');
     $attribute = $selector->getAttributeName();
     $attribute_value = $selector->getAttributeValue();
-    $nodeList->item(0)->setAttribute($attribute, $attribute_value);
+    /** @var DOMElement $item */
+    $item = $nodeList->item(0);
+    $item->setAttribute($attribute, $attribute_value);
     $element = $dom->saveHTML($nodeList->item(0));
   }
 }

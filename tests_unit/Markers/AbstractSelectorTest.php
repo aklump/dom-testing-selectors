@@ -2,7 +2,7 @@
 
 namespace AKlump\DomTestingSelectors\Tests\Unit\Markers;
 
-use AKlump\DomTestingSelectors\Exception\UnamedElementException;
+use AKlump\DomTestingSelectors\Exception\UnnamedSelectorException;
 use AKlump\DomTestingSelectors\Selector\AbstractSelector;
 use PHPUnit\Framework\TestCase;
 
@@ -18,7 +18,7 @@ class AbstractSelectorTest extends TestCase {
   }
 
   public function testGetAttributeValueBeforeSetThrows() {
-    $this->expectException(UnamedElementException::class);
+    $this->expectException(UnnamedSelectorException::class);
     (new TestableSelector())->getAttributeValue();
   }
 

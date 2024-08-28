@@ -15,13 +15,16 @@ interface HandlerInterface {
   public function canHandle($element): bool;
 
   /**
+   * Add the provided selector to the element.
+   *
    * @param &$element
    *   If the element cannot be modified and exception is thrown so be sure to
    *   check first using ::canHandle().
+   * @param \AKlump\DomTestingSelectors\Selector\ElementSelectorInterface $selector
    *
    * @return void
    *
-   * @throws \InvalidArgumentException If the class couldn't alter the $element.
+   * @throws \AKlump\DomTestingSelectors\Exception\MismatchedHandlerException If the class cannot handle the provided $element.
    */
   public function handle(&$element, ElementSelectorInterface $selector): void;
 }

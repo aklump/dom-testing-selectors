@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace AKlump\DomTestingSelectors\Selector;
 
-use AKlump\DomTestingSelectors\Exception\UnamedElementException;
+use AKlump\DomTestingSelectors\Exception\UnnamedSelectorException;
 
 abstract class AbstractSelector implements ElementSelectorInterface {
 
@@ -44,7 +44,7 @@ abstract class AbstractSelector implements ElementSelectorInterface {
   public function getAttributeValue(): string {
     $value = $this->targetElementName;
     if (empty($value)) {
-      throw new UnamedElementException();
+      throw new UnnamedSelectorException();
     }
     if (!empty($this->targetElementGroup)) {
       $value = $this->targetElementGroup . "__$value";
@@ -53,9 +53,6 @@ abstract class AbstractSelector implements ElementSelectorInterface {
     return $value;
   }
 
-  /**
-   * {@inheritdoc}
-   */
   public function __toString(): string {
     return sprintf('"%s"="%s"', $this->getAttributeName(), $this->getAttributeValue());
   }
