@@ -1,0 +1,26 @@
+<?php
+
+namespace AKlump\DomTestingSelectors\Handler;
+
+use AKlump\DomTestingSelectors\Selector\ElementSelectorInterface;
+
+/**
+ * Use this as the last handler in a factory to prevent
+ * \AKlump\DomTestingSelectors\NoHandlerFoundException from being thrown.
+ */
+class PassThroughHandler implements HandlerInterface {
+
+  /**
+   * @inheritDoc
+   */
+  public function canHandle($element): bool {
+    return TRUE;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function handle(&$element, ElementSelectorInterface $selector): void {
+    // This class is meant as a fallback and does not modify $element.
+  }
+}
