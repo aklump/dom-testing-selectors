@@ -4,3 +4,7 @@ vendor/
 feature*
 *.jig*
 src/Handlers/Drupal*
+/src/Handler/DrupalRenderArrayHandler.php
+/src/Handler/DrupalTableRowHandler.php
+/tests_unit/Handlers/DrupalRenderArrayHandlerTest.php
+/tests_unit/Handlers/DrupalTableRowHandlerTest.php

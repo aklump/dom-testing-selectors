@@ -33,6 +33,8 @@ describe('The main page', () => {
 })
 ```
 
+{{ composer.install|raw }}
+
 ## Selectors
 
 ```php
