@@ -24,5 +24,6 @@
   },
   "require": {
     "ext-dom": "*"
-  }
+  },
+  "license": "BSD-3-Clause"
 }
