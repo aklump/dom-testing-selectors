@@ -127,7 +127,7 @@ try {
   $factory->getHandler($element2)->handle($element2, $selector);
   // $element2 === ['tag'=>'div','attributes'=>['data-test'=>'foobar']]
 }
-catch (\AKlump\DomTestingSelectors\NoHandlerFoundException $exception) {
+catch (\AKlump\DomTestingSelectors\Exception\NoHandlerFoundException $exception) {
   // No handler found
 }
 ```

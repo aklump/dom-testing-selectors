@@ -5,10 +5,10 @@ declare(strict_types=1);
 
 namespace AKlump\DomTestingSelectors\Handler;
 
+use AKlump\DomTestingSelectors\Exception\MismatchedHandlerException;
 use AKlump\DomTestingSelectors\Selector\ElementSelectorInterface;
 use DOMDocument;
 use DOMXPath;
-use InvalidArgumentException;
 
 /**
  * Handles XML strings with a single root element. The root element will receive
@@ -39,7 +39,7 @@ class StringHandler implements HandlerInterface {
 
   public function handle(&$element, ElementSelectorInterface $selector): void {
     if (!$this->canHandle($element)) {
-      throw new InvalidArgumentException();
+      throw new MismatchedHandlerException();
     }
     $dom = new DOMDocument();
     $dom->loadXML($element);

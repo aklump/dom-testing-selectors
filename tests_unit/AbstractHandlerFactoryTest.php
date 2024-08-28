@@ -2,9 +2,9 @@
 
 namespace AKlump\DomTestingSelectors\Tests\Unit;
 
+use AKlump\DomTestingSelectors\Exception\NoHandlerFoundException;
 use AKlump\DomTestingSelectors\Factory\AbstractHandlerFactory;
 use AKlump\DomTestingSelectors\Handler\StringHandler;
-use AKlump\DomTestingSelectors\NoHandlerFoundException;
 use PHPUnit\Framework\TestCase;
 
 /**

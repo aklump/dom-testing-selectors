@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-namespace AKlump\DomTestingSelectors;
+namespace AKlump\DomTestingSelectors\Exception;
 
 use InvalidArgumentException;
 

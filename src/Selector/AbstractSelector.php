@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace AKlump\DomTestingSelectors\Selector;
 
-use RuntimeException;
+use AKlump\DomTestingSelectors\Exception\UnamedElementException;
 
 abstract class AbstractSelector implements ElementSelectorInterface {
 
@@ -34,8 +34,7 @@ abstract class AbstractSelector implements ElementSelectorInterface {
   public function getAttributeValue(): string {
     $value = $this->targetElementName;
     if (empty($value)) {
-      // TODO Custom exception?
-      throw new RuntimeException();
+      throw new UnamedElementException();
     }
     if (!empty($this->targetElementGroup)) {
       $value = $this->targetElementGroup . "__$value";

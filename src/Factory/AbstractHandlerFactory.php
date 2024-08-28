@@ -5,8 +5,8 @@ declare(strict_types=1);
 
 namespace AKlump\DomTestingSelectors\Factory;
 
+use AKlump\DomTestingSelectors\Exception\NoHandlerFoundException;
 use AKlump\DomTestingSelectors\Handler\HandlerInterface;
-use AKlump\DomTestingSelectors\NoHandlerFoundException;
 
 abstract class AbstractHandlerFactory implements HandlerFactoryInterface {
 

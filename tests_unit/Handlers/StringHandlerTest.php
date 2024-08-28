@@ -2,9 +2,9 @@
 
 namespace AKlump\DomTestingSelectors\Tests\Unit\Handlers;
 
+use AKlump\DomTestingSelectors\Exception\MismatchedHandlerException;
 use AKlump\DomTestingSelectors\Handler\StringHandler;
 use AKlump\DomTestingSelectors\Selector\DataTestSelector;
-use AKlump\DomTestingSelectors\Tests\Unit\TestingTraits\HandlersTestTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -41,15 +41,15 @@ class StringHandlerTest extends TestCase {
    * @dataProvider dataFortestAppliesProvider
    */
   public function testAppliesThrowsWhenBadSubject($subject, bool $expected) {
-    $foo = new StringHandler();
+    $handler = new StringHandler();
     if (TRUE === $expected) {
       $this->assertTrue(TRUE);
 
       return;
     }
 
-    $this->expectException(\InvalidArgumentException::class);
-    $foo->handle($expected, new DataTestSelector());
+    $this->expectException(MismatchedHandlerException::class);
+    $handler->handle($expected, new DataTestSelector());
   }
 
   public function dataFortestHandleProvider() {
