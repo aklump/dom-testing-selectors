@@ -10,6 +10,6 @@ use InvalidArgumentException;
 /**
  * Indicates there is no handler for a given $element.
  */
-class NoHandlerFoundException extends InvalidArgumentException {
+final class NoHandlerFoundException extends InvalidArgumentException {
 
 }

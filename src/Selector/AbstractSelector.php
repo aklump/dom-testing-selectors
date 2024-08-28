@@ -14,13 +14,23 @@ abstract class AbstractSelector implements ElementSelectorInterface {
    */
   private $targetElementGroup;
 
+  /**
+   * {@inheritdoc}
+   * @see \AKlump\DomTestingSelectors\Selector\AbstractSelector::applyNamingConventions()
+   */
   public function setGroup(string $group): ElementSelectorInterface {
+    $this->applyNamingConventions($group);
     $this->targetElementGroup = $group;
 
     return $this;
   }
 
+  /**
+   * {@inheritdoc}
+   * @see \AKlump\DomTestingSelectors\Selector\AbstractSelector::applyNamingConventions()
+   */
   public function setName(string $name): ElementSelectorInterface {
+    $this->applyNamingConventions($name);
     $this->targetElementName = $name;
 
     return $this;
@@ -52,5 +62,20 @@ abstract class AbstractSelector implements ElementSelectorInterface {
 
   public function __invoke(string $target_element_name): string {
     return (string) $this->setName($target_element_name);
+  }
+
+  /**
+   * Change $value to adhere to naming conventions.
+   *
+   * @param string &$value
+   *   The value to apply naming conventions to.
+   *
+   * @return void
+   */
+  protected function applyNamingConventions(string &$value): void {
+    $value = preg_replace('/([a-z])([A-Z])/', '$1_$2', $value);
+    $value = strtolower($value);
+    $value = preg_replace('/[^a-z0-9_]/', '_', $value);
+    $value = preg_replace('#_{2,}#', '_', $value);
   }
 }

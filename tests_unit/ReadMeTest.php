@@ -12,6 +12,14 @@ use PHPUnit\Framework\TestCase;
  */
 class ReadMeTest extends TestCase {
 
+  public function testReadMeNamingConvention() {
+    $selector = new \AKlump\DomTestingSelectors\Selector\DataTestSelector();
+    $attribute = $selector('A.StrangeSelector string---NAME');
+    // $attribute === '"data-test"="a_strangeselector_string_name"
+
+    $this->assertSame('"data-test"="a_strange_selector_string_name"', $attribute);
+  }
+
   public function testReadMeSafeFactory() {
     $factory = new MySafeFactory();
     $selector = new \AKlump\DomTestingSelectors\Selector\DataTestSelector();

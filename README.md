@@ -57,9 +57,19 @@ $username_selector = $test_selector('username');
 // $username_selector === '"data-test"="login__username"'
 ```
 
+#### Naming Convention
+
+Be aware that in an effort to reduce confusion and errors, the provided `\AKlump\DomTestingSelectors\Selector\AbstractSelector` has an opinion about naming convention. To change this behavior you should create a custom selector class, overriding `\AKlump\DomTestingSelectors\Selector\AbstractSelector::applyNamingConventions`.
+
+```php
+$selector = new \AKlump\DomTestingSelectors\Selector\DataTestSelector();
+$attribute = $selector('A.StrangeSelector string---NAME');
+// $attribute === '"data-test"="a_strange_selector_string_name"
+```
+
 #### Using a Different Attribute
 
-This example will illustrate how to change the attribute to `data-cy`, which you may want to use while [testing with Cypress](https://www.cypress.io/). Simple create a new class and use in place of `DataTestSelector`.
+This example will illustrate how to change the attribute to `data-cy`, which you may want to use while [testing with Cypress](https://www.cypress.io/). Simple create a custom selector class and use in place of `DataTestSelector`.
 
 ```php
 namespace Vendor\DomTestingSelectors\Selectors;

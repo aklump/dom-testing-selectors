@@ -11,6 +11,39 @@ use PHPUnit\Framework\TestCase;
  */
 class DataTestSelectorTest extends TestCase {
 
+  public function dataFortestGroupManipulationProvider() {
+    $tests = [];
+    $tests[] = ['FOO', 'foo'];
+    $tests[] = ['AppleBanana', 'apple_banana'];
+    $tests[] = ['appleBanana', 'apple_banana'];
+    $tests[] = ['foo-bar', 'foo_bar'];
+    $tests[] = ['foo___bar', 'foo_bar'];
+    $tests[] = ['one more time', 'one_more_time'];
+    $tests[] = ['CAN.you.Feel   the -- #Love', 'can_you_feel_the_love'];
+
+    return $tests;
+  }
+
+  /**
+   * @dataProvider dataFortestGroupManipulationProvider
+   */
+  public function testGroupNamingConventions(string $subject, string $expected) {
+    $result = (new DataTestSelector())->setGroup($subject)
+      ->setName('foo')
+      ->getAttributeValue();
+    $this->assertSame("${expected}__foo", $result);
+  }
+
+  /**
+   * @dataProvider dataFortestGroupManipulationProvider
+   */
+  public function testNameNamingConventions(string $subject, string $expected) {
+    $result = (new DataTestSelector())
+      ->setName($subject)
+      ->getAttributeValue();
+    $this->assertSame($expected, $result);
+  }
+
   public function testGetAttributeMethods() {
     $marker = new DataTestSelector();
     $marker

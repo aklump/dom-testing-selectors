@@ -7,6 +7,6 @@ use RuntimeException;
 /**
  * Thrown when a selector is missing the target element name.
  */
-class UnamedElementException extends RuntimeException {
+final class UnamedElementException extends RuntimeException {
 
 }

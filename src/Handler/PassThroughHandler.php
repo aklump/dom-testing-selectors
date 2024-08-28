@@ -8,7 +8,7 @@ use AKlump\DomTestingSelectors\Selector\ElementSelectorInterface;
  * Use this as the last handler in a factory to prevent
  * \AKlump\DomTestingSelectors\NoHandlerFoundException from being thrown.
  */
-class PassThroughHandler implements HandlerInterface {
+final class PassThroughHandler implements HandlerInterface {
 
   /**
    * @inheritDoc
