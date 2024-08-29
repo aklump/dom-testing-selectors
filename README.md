@@ -1,5 +1,7 @@
 # DOM Testing Selectors
 
+![](https://badgen.net/packagist/name/aklump/dom-testing-selectors) ![](https://badgen.net/packagist/php/aklump/dom-testing-selectors) ![](https://badgen.net/github/license/aklump/dom-testing-selectors)
+
 ![hero](images/testing_selectors.jpg)
 
 **This library offers a PHP solution designed to add specific markup to your DOM for testing purposes.** By default, it configures a `data-test` attribute for DOM elements, as shown in the examples. The library is intended to be integrated into a server-side rendering pipeline, which generates your markup.
@@ -42,10 +44,10 @@ describe('The main page', () => {
 $test_selector = new \AKlump\DomTestingSelectors\Selector\DataTestSelector();
 
 $username_selector = $test_selector('username');
-// $username_selector === '"data-test"="username"'
+// $username_selector === 'data-test="username"'
 
 $password_selector = $test_selector('password');
-// $password_selector === '"data-test"="password"'
+// $password_selector === 'data-test="password"'
 ```
 
 You may also add a group to the selectors, which will prefix the attribute value:
@@ -54,20 +56,22 @@ You may also add a group to the selectors, which will prefix the attribute value
 $test_selector->setGroup('login');
 
 $username_selector = $test_selector('username');
-// $username_selector === '"data-test"="login__username"'
+// $username_selector === 'data-test="login__username"'
 ```
 
 #### Naming Convention
 
-Be aware that in an effort to reduce confusion and errors, the provided `\AKlump\DomTestingSelectors\Selector\AbstractSelector` has an opinion about naming convention. To change this behavior you should create a custom selector class, overriding `\AKlump\DomTestingSelectors\Selector\AbstractSelector::applyNamingConventions`.
+Be aware that in an effort to reduce confusion and errors, the provided `\AKlump\DomTestingSelectors\Selector\AbstractSelector` has an opinion about naming convention.
 
 ```php
 $selector = new \AKlump\DomTestingSelectors\Selector\DataTestSelector();
 $attribute = $selector('A.StrangeSelector string---NAME');
-// $attribute === '"data-test"="a_strange_selector_string_name"
+// $attribute === 'data-test="a_strange_selector_string_name"
 ```
 
-#### Using a Different Attribute
+To change this behavior you should create a custom selector class, overriding `\AKlump\DomTestingSelectors\Selector\AbstractSelector::applyNamingConventions`.
+
+#### Using a Custom Attribute
 
 This example will illustrate how to change the attribute to `data-cy`, which you may want to use while [testing with Cypress](https://www.cypress.io/). Simple create a custom selector class and use in place of `DataTestSelector`.
 
@@ -84,6 +88,24 @@ final class CypressSelector extends AbstractSelector {
 
 To learn more about selectors, refer to `\AKlump\DomTestingSelectors\Selectors\AbstractSelector`.
 
+#### Using Classes as Testing Selectors
+
+The included `\AKlump\DomTestingSelectors\Selector\ClassSelector` can be used instead of `\AKlump\DomTestingSelectors\Selector\DataTestSelector` if you want to use CSS classes (e.g. `t-foo`) for selecting your elements.  **Notice the naming convention is altered for classes, using hyphens instead of underscores.**
+
+```php
+// When using the class attribute--e.g., "<div class="foo bar"/>"--you must
+// merge with any existing value.  The current value has to be passed as the
+// second argument to __invoke() and __getAttributeValue.
+$selector = new \AKlump\DomTestingSelectors\Selector\ClassSelector();
+$attribute_markup = $selector('my_target_element', 'foo bar');
+// $attribute_markup === 'class="foo bar t-my-target-element"'
+
+$selector = new \AKlump\DomTestingSelectors\Selector\ClassSelector();
+$attribute_value = $selector->setName('my_target_element')
+  ->getAttributeValue('foo bar');
+// $attribute_value === 'foo bar t-my-target-element'
+```
+
 ## Handlers
 
 Handlers do the work of adding the selector markup to your HTML. The `\AKlump\DomTestingSelectors\Handlers\StringHandler` is provided by this library, to add the selector to HTML strings.
@@ -93,7 +115,7 @@ $element = '<div></div>';
 $handler = new \AKlump\DomTestingSelectors\Handler\StringHandler();
 $selector = new \AKlump\DomTestingSelectors\Selector\DataTestSelector();
 if ($handler->canHandle($element)) {
-  $handler->handle($element, $selector->setName('foobar'));
+  $handler->addTestingSelectorToElement($element, $selector->setName('foobar'));
 }
 // $element === '<div data-test="foobar"></div>'
 ```
@@ -106,7 +128,7 @@ class MyArrayHandler implements \AKlump\DomTestingSelectors\Handler\HandlerInter
     return is_array($element);
   }
 
-  public function handle(&$element, \AKlump\DomTestingSelectors\Selector\ElementSelectorInterface $selector): void {
+  public function addTestingSelectorToElement(&$element, \AKlump\DomTestingSelectors\Selector\ElementSelectorInterface $selector): void {
     $element['attributes'][$selector->getAttributeName()] = $selector->getAttributeValue();
   }
 }
@@ -132,10 +154,10 @@ $element1 = '<div></div>';
 $element2 = ['tag' => 'div'];
 
 try {
-  $factory->getHandler($element1)->handle($element1, $selector);
+  $factory->getHandler($element1)->addTestingSelectorToElement($element1, $selector);
   // $element1 === '<div data-test="foobar"></div>'
 
-  $factory->getHandler($element2)->handle($element2, $selector);
+  $factory->getHandler($element2)->addTestingSelectorToElement($element2, $selector);
   // $element2 === ['tag'=>'div','attributes'=>['data-test'=>'foobar']]
 }
 catch (\AKlump\DomTestingSelectors\Exception\NoHandlerFoundException $exception) {
@@ -163,9 +185,9 @@ $selector->setName('foobar');
 $element1 = '<div></div>';
 $element2 = 'lorem ipsum dolar';
 
-$factory->getHandler($element1)->handle($element1, $selector);
+$factory->getHandler($element1)->addTestingSelectorToElement($element1, $selector);
 // $element1 === '<div data-test="foobar"></div>'
 
-$factory->getHandler($element2)->handle($element2, $selector);
+$factory->getHandler($element2)->addTestingSelectorToElement($element2, $selector);
 // $element2 === 'lorem ipsum dolar'
 ```
