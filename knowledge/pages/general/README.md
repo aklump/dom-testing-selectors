@@ -5,7 +5,7 @@ tags: ''
 
 # {{ book.title }}
 
-![](https://badgen.net/packagist/name/aklump/dom-testing-selectors) ![](https://badgen.net/packagist/php/aklump/dom-testing-selectors) ![](https://badgen.net/github/license/aklump/dom-testing-selectors)
+[![Packagist link](https://badgen.net/packagist/name/aklump/dom-testing-selectors)](https://packagist.org/packages/aklump/dom-testing-selectors) ![](https://badgen.net/packagist/php/aklump/dom-testing-selectors) ![](https://badgen.net/github/license/aklump/dom-testing-selectors)
 
 ![hero](../../images/testing_selectors.jpg)
 
