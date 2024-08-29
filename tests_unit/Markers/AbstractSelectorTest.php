@@ -14,18 +14,12 @@ class AbstractSelectorTest extends TestCase {
   public function testInvoke() {
     $selector = (new TestableSelector())('login');
     $this->assertIsString($selector);
-    $this->assertSame('"data-testable-selector"="login"', $selector);
+    $this->assertSame('data-testable-selector="login"', $selector);
   }
 
   public function testGetAttributeValueBeforeSetThrows() {
     $this->expectException(UnnamedSelectorException::class);
     (new TestableSelector())->getAttributeValue();
-  }
-
-  public function testToStringWorksAsExpected() {
-    $marker = new TestableSelector();
-    $marker->setName('foobar');
-    $this->assertSame('"data-testable-selector"="foobar"', (string) $marker);
   }
 
   public function testGetAttributeMethods() {

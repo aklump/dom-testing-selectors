@@ -27,34 +27,37 @@ class StringHandler implements HandlerInterface {
     if (!preg_match('#<.+>#', $element)) {
       return FALSE;
     }
+
+    return (bool) $this->getDOMElement($element);
+  }
+
+  public function addTestingSelectorToElement(&$element, ElementSelectorInterface $selector): void {
+    if (!$this->canHandle($element)) {
+      throw new MismatchedHandlerException();
+    }
+    $dom = NULL;
+    $item = $this->getDOMElement($element, $dom);
+    $attr_name = $selector->getAttributeName();
+    $current_value = $item->getAttribute($attr_name);
+    $item->setAttribute($attr_name, $selector->getAttributeValue($current_value));
+    $element = $dom->saveHTML($item);
+  }
+
+  private function getDOMElement($element, &$dom = NULL): ?DOMElement {
     $dom = new DOMDocument();
     @$dom->loadXML($element);
     $xpath = new DOMXPath($dom);
     $nodeList = $xpath->query('/*');
     if ($nodeList->length !== 1) {
-      return FALSE;
+      return NULL;
     }
     $item = $nodeList->item(0);
     if (!$item instanceof DOMElement) {
-      return FALSE;
+      // I have not found a test case to cover this, but I'm keeping it so that
+      // this cannot possibly fail in the scenario I'm not thinking of.
+      return NULL;
     }
 
-    return TRUE;
-  }
-
-  public function handle(&$element, ElementSelectorInterface $selector): void {
-    if (!$this->canHandle($element)) {
-      throw new MismatchedHandlerException();
-    }
-    $dom = new DOMDocument();
-    $dom->loadXML($element);
-    $xpath = new DOMXPath($dom);
-    $nodeList = $xpath->query('//*');
-    $attribute = $selector->getAttributeName();
-    $attribute_value = $selector->getAttributeValue();
-    /** @var DOMElement $item */
-    $item = $nodeList->item(0);
-    $item->setAttribute($attribute, $attribute_value);
-    $element = $dom->saveHTML($nodeList->item(0));
+    return $item;
   }
 }

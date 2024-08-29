@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace AKlump\DomTestingSelectors\Selector;
 
 /**
- * Provide a `data-test` selector class.
+ * Provide selector class using `data-test` attribute for testing selectors.
  */
 final class DataTestSelector extends AbstractSelector {
 

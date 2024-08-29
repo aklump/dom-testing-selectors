@@ -24,7 +24,7 @@ interface HandlerInterface {
    *
    * @return void
    *
-   * @throws \AKlump\DomTestingSelectors\Exception\MismatchedHandlerException If the class cannot handle the provided $element.
+   * @throws \AKlump\DomTestingSelectors\Exception\MismatchedHandlerException If the class cannot addTestingSelectorToElement the provided $element.
    */
-  public function handle(&$element, ElementSelectorInterface $selector): void;
+  public function addTestingSelectorToElement(&$element, ElementSelectorInterface $selector): void;
 }

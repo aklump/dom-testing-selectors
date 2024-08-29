@@ -41,7 +41,7 @@ abstract class AbstractSelector implements ElementSelectorInterface {
    */
   private $targetElementName;
 
-  public function getAttributeValue(): string {
+  public function getAttributeValue(string $current_value = ''): string {
     $value = $this->targetElementName;
     if (empty($value)) {
       throw new UnnamedSelectorException();
@@ -53,12 +53,18 @@ abstract class AbstractSelector implements ElementSelectorInterface {
     return $value;
   }
 
-  public function __toString(): string {
-    return sprintf('"%s"="%s"', $this->getAttributeName(), $this->getAttributeValue());
-  }
+  /**
+   * Return the string testing selector ready for HTML.
+   *
+   * @param string $target_element_name
+   * @param string $current_attribute_value
+   *
+   * @return string
+   */
+  public function __invoke(string $target_element_name, string $current_attribute_value = ''): string {
+    $this->setName($target_element_name);
 
-  public function __invoke(string $target_element_name): string {
-    return (string) $this->setName($target_element_name);
+    return sprintf('%s="%s"', $this->getAttributeName(), $this->getAttributeValue($current_attribute_value));
   }
 
   /**

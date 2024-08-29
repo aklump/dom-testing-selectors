@@ -12,12 +12,29 @@ use PHPUnit\Framework\TestCase;
  */
 class ReadMeTest extends TestCase {
 
+  public function testReadMeClassSelector() {
+    // When using the class attribute--e.g., "<div class="foo bar"/>"--you must
+    // merge with any existing value.  The current value has to be passed as the
+    // second argument to __invoke() and __getAttributeValue.
+    $selector = new \AKlump\DomTestingSelectors\Selector\ClassSelector();
+    $attribute_markup = $selector('my_target_element', 'foo bar');
+    // $attribute_markup === 'class="foo bar t-my-target-element"'
+
+    $selector = new \AKlump\DomTestingSelectors\Selector\ClassSelector();
+    $attribute_value = $selector->setName('my_target_element')
+      ->getAttributeValue('foo bar');
+    // $attribute_value === 'foo bar t-my-target-element'
+
+    $this->assertSame('class="foo bar t-my-target-element"', $attribute_markup);
+    $this->assertSame('foo bar t-my-target-element', $attribute_value);
+  }
+
   public function testReadMeNamingConvention() {
     $selector = new \AKlump\DomTestingSelectors\Selector\DataTestSelector();
     $attribute = $selector('A.StrangeSelector string---NAME');
-    // $attribute === '"data-test"="a_strangeselector_string_name"
+    // $attribute === 'data-test="a_strangeselector_string_name"
 
-    $this->assertSame('"data-test"="a_strange_selector_string_name"', $attribute);
+    $this->assertSame('data-test="a_strange_selector_string_name"', $attribute);
   }
 
   public function testReadMeSafeFactory() {
@@ -28,10 +45,12 @@ class ReadMeTest extends TestCase {
     $element1 = '<div></div>';
     $element2 = 'lorem ipsum dolar';
 
-    $factory->getHandler($element1)->handle($element1, $selector);
+    $factory->getHandler($element1)
+      ->addTestingSelectorToElement($element1, $selector);
     // $element1 === '<div data-test="foobar"></div>'
 
-    $factory->getHandler($element2)->handle($element2, $selector);
+    $factory->getHandler($element2)
+      ->addTestingSelectorToElement($element2, $selector);
     // $element2 === 'lorem ipsum dolar'
 
     $this->assertSame('<div data-test="foobar"></div>', $element1);
@@ -47,10 +66,12 @@ class ReadMeTest extends TestCase {
     $element2 = ['tag' => 'div'];
 
     try {
-      $factory->getHandler($element1)->handle($element1, $selector);
+      $factory->getHandler($element1)
+        ->addTestingSelectorToElement($element1, $selector);
       // $element1 === '<div data-test="foobar"></div>'
 
-      $factory->getHandler($element2)->handle($element2, $selector);
+      $factory->getHandler($element2)
+        ->addTestingSelectorToElement($element2, $selector);
       // $element2 === ['tag'=>'div','attributes'=>['data-test'=>'foobar']]
     }
     catch (\AKlump\DomTestingSelectors\Exception\NoHandlerFoundException $exception) {
@@ -71,7 +92,7 @@ class ReadMeTest extends TestCase {
     $handler = new \AKlump\DomTestingSelectors\Handler\StringHandler();
     $selector = new \AKlump\DomTestingSelectors\Selector\DataTestSelector();
     if ($handler->canHandle($element)) {
-      $handler->handle($element, $selector->setName('foobar'));
+      $handler->addTestingSelectorToElement($element, $selector->setName('foobar'));
     }
     // $element === '<div data-test="foobar"></div>'
     $this->assertSame('<div data-test="foobar"></div>', $element);
@@ -82,11 +103,11 @@ class ReadMeTest extends TestCase {
     $username_selector = $test_selector('username');
     $password_selector = $test_selector('password');
 
-    // $username_selector === '"data-test"="username"'
-    // $password_selector === '"data-test"="password"'
+    // $username_selector === 'data-test="username"'
+    // $password_selector === 'data-test="password"'
 
-    $this->assertSame('"data-test"="username"', $username_selector);
-    $this->assertSame('"data-test"="password"', $password_selector);
+    $this->assertSame('data-test="username"', $username_selector);
+    $this->assertSame('data-test="password"', $password_selector);
   }
 
   public function testReadMeExampleSelectorWithGroup() {
@@ -95,11 +116,11 @@ class ReadMeTest extends TestCase {
     $username_selector = $test_selector('username');
     $password_selector = $test_selector('password');
 
-    // $username_selector === '"data-test"="login__username"'
-    // $password_selector === '"data-test"="login__password"'
+    // $username_selector === 'data-test="login__username"'
+    // $password_selector === 'data-test="login__password"'
 
-    $this->assertSame('"data-test"="login__username"', $username_selector);
-    $this->assertSame('"data-test"="login__password"', $password_selector);
+    $this->assertSame('data-test="login__username"', $username_selector);
+    $this->assertSame('data-test="login__password"', $password_selector);
   }
 }
 
@@ -109,7 +130,7 @@ class MyArrayHandler implements \AKlump\DomTestingSelectors\Handler\HandlerInter
     return is_array($element);
   }
 
-  public function handle(&$element, \AKlump\DomTestingSelectors\Selector\ElementSelectorInterface $selector): void {
+  public function addTestingSelectorToElement(&$element, \AKlump\DomTestingSelectors\Selector\ElementSelectorInterface $selector): void {
     $element['attributes'][$selector->getAttributeName()] = $selector->getAttributeValue();
   }
 }

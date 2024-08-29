@@ -20,7 +20,7 @@ final class PassThroughHandler implements HandlerInterface {
   /**
    * @inheritDoc
    */
-  public function handle(&$element, ElementSelectorInterface $selector): void {
+  public function addTestingSelectorToElement(&$element, ElementSelectorInterface $selector): void {
     // This class is meant as a fallback and does not modify $element.
   }
 }
