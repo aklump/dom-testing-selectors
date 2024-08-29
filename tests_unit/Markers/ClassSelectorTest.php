@@ -11,6 +11,28 @@ use PHPUnit\Framework\TestCase;
  */
 class ClassSelectorTest extends TestCase {
 
+  public function dataFortestReplacementWorksAsExpectedProvider() {
+    $tests = [];
+    $tests[] = ['t-bar', '', 'foo', 't-foo'];
+    $tests[] = ['t-bar foot-bar', '', 'foo', 'foot-bar t-foo'];
+    $tests[] = ['foot-bar t-bar ', '', 'foo', 'foot-bar t-foo'];
+    $tests[] = ['foot-barrio', '', 'foo', 'foot-barrio t-foo'];
+    $tests[] = ['t-foods--bread', 'foods', 'lettuce', 't-foods--lettuce'];
+
+    return $tests;
+  }
+
+  /**
+   * @dataProvider dataFortestReplacementWorksAsExpectedProvider
+   */
+  public function testReplacementWorksAsExpected($current_value, $group, $name, $expected) {
+    $selector = new ClassSelector();
+    $selector->setGroup($group);
+    $selector->setName($name);
+    $result = $selector->getAttributeValue($current_value);
+    $this->assertSame($expected, $result);
+  }
+
   public function dataForTestGroupManipulationProvider(): array {
     $tests = [];
     $tests[] = ['FOO', 'foo'];
@@ -31,7 +53,7 @@ class ClassSelectorTest extends TestCase {
     $result = (new ClassSelector())->setGroup($subject)
       ->setName('foo')
       ->getAttributeValue();
-    $this->assertSame(ClassSelector::PREFIX . "$expected--foo", $result);
+    $this->assertSame(ClassSelector::VALUE_PREFIX . "$expected--foo", $result);
   }
 
   /**
@@ -41,7 +63,7 @@ class ClassSelectorTest extends TestCase {
     $result = (new ClassSelector())
       ->setName($subject)
       ->getAttributeValue();
-    $this->assertSame(ClassSelector::PREFIX . "$expected", $result);
+    $this->assertSame(ClassSelector::VALUE_PREFIX . "$expected", $result);
   }
 
   public function testGetAttributeMethods() {
@@ -50,7 +72,7 @@ class ClassSelectorTest extends TestCase {
       ->setGroup('fruits')
       ->setName('kiwi');
     $this->assertSame('class', $marker->getAttributeName());
-    $this->assertSame(ClassSelector::PREFIX . 'fruits--kiwi', $marker->getAttributeValue());
+    $this->assertSame(ClassSelector::VALUE_PREFIX . 'fruits--kiwi', $marker->getAttributeValue());
   }
 
 }

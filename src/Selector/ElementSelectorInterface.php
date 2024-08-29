@@ -46,7 +46,11 @@ interface ElementSelectorInterface {
    *
    * @return string
    *   The DOM element value to use for the test selector.
+   *
+   * @throws \AKlump\DomTestingSelectors\Exception\UnnamedSelectorException If
+   * the name of the selector is empty.
+   *
+   * @see \AKlump\DomTestingSelectors\Selector\ElementSelectorInterface::setName()
    */
   public function getAttributeValue(string $current_value = ''): string;
-
 }

@@ -46,11 +46,11 @@ class ReadMeTest extends TestCase {
     $element2 = 'lorem ipsum dolar';
 
     $factory->getHandler($element1)
-      ->addTestingSelectorToElement($element1, $selector);
+      ->setTestingSelectorOnElement($element1, $selector);
     // $element1 === '<div data-test="foobar"></div>'
 
     $factory->getHandler($element2)
-      ->addTestingSelectorToElement($element2, $selector);
+      ->setTestingSelectorOnElement($element2, $selector);
     // $element2 === 'lorem ipsum dolar'
 
     $this->assertSame('<div data-test="foobar"></div>', $element1);
@@ -67,11 +67,11 @@ class ReadMeTest extends TestCase {
 
     try {
       $factory->getHandler($element1)
-        ->addTestingSelectorToElement($element1, $selector);
+        ->setTestingSelectorOnElement($element1, $selector);
       // $element1 === '<div data-test="foobar"></div>'
 
       $factory->getHandler($element2)
-        ->addTestingSelectorToElement($element2, $selector);
+        ->setTestingSelectorOnElement($element2, $selector);
       // $element2 === ['tag'=>'div','attributes'=>['data-test'=>'foobar']]
     }
     catch (\AKlump\DomTestingSelectors\Exception\NoHandlerFoundException $exception) {
@@ -92,7 +92,7 @@ class ReadMeTest extends TestCase {
     $handler = new \AKlump\DomTestingSelectors\Handler\StringHandler();
     $selector = new \AKlump\DomTestingSelectors\Selector\DataTestSelector();
     if ($handler->canHandle($element)) {
-      $handler->addTestingSelectorToElement($element, $selector->setName('foobar'));
+      $handler->setTestingSelectorOnElement($element, $selector->setName('foobar'));
     }
     // $element === '<div data-test="foobar"></div>'
     $this->assertSame('<div data-test="foobar"></div>', $element);
@@ -130,7 +130,7 @@ class MyArrayHandler implements \AKlump\DomTestingSelectors\Handler\HandlerInter
     return is_array($element);
   }
 
-  public function addTestingSelectorToElement(&$element, \AKlump\DomTestingSelectors\Selector\ElementSelectorInterface $selector): void {
+  public function setTestingSelectorOnElement(&$element, \AKlump\DomTestingSelectors\Selector\ElementSelectorInterface $selector): void {
     $element['attributes'][$selector->getAttributeName()] = $selector->getAttributeValue();
   }
 }

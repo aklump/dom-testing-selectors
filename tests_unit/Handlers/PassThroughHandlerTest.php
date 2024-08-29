@@ -39,11 +39,11 @@ class PassThroughHandlerTest extends TestCase {
   /**
    * @dataProvider dataForTestCanHandleProvider
    */
-  public function testAddTestingSelectorToElement($element) {
+  public function testsetTestingSelectorOnElement($element) {
     $handler = new PassThroughHandler();
     $selector = new DataTestSelector();
     $original = $element;
-    $handler->addTestingSelectorToElement($element, $selector);
+    $handler->setTestingSelectorOnElement($element, $selector);
     $this->assertSame($original, $element);
   }
 }

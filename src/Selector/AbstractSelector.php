@@ -10,9 +10,29 @@ use AKlump\DomTestingSelectors\Exception\UnnamedSelectorException;
 abstract class AbstractSelector implements ElementSelectorInterface {
 
   /**
+   * Appears at the front of the DOM attribute value.
+   */
+  const VALUE_PREFIX = '';
+
+  /**
+   * Appears at the end of the DOM attribute value.
+   */
+  const VALUE_SUFFIX = '';
+
+  /**
+   * Appears only if there is a group to separate it from the name.
+   */
+  const GROUP_NAME_SEPARATOR = '__';
+
+  /**
    * @var string
    */
-  private $targetElementGroup;
+  private $group = '';
+
+  /**
+   * @var string
+   */
+  private $name = '';
 
   /**
    * {@inheritdoc}
@@ -20,10 +40,19 @@ abstract class AbstractSelector implements ElementSelectorInterface {
    */
   public function setGroup(string $group): ElementSelectorInterface {
     $this->applyNamingConventions($group);
-    $this->targetElementGroup = $group;
+    $this->group = $group;
 
     return $this;
   }
+
+  public function getGroup(): string {
+    return $this->group;
+  }
+
+  public function getName(): string {
+    return $this->name;
+  }
+
 
   /**
    * {@inheritdoc}
@@ -31,26 +60,44 @@ abstract class AbstractSelector implements ElementSelectorInterface {
    */
   public function setName(string $name): ElementSelectorInterface {
     $this->applyNamingConventions($name);
-    $this->targetElementName = $name;
+    $this->name = $name;
 
     return $this;
   }
 
   /**
-   * @var string
+   * Get the value side of the DOM attribute assignment with testing selector.
+   *
+   * @param string $current_value
+   *   For most attributes, you will ignore this value.  However with the
+   *   "class" attribute you will not; in that case you must 1) remove an
+   *   existing testing selector class and 2) append the new testing selector
+   *   classname, preserving the other classes as well.  Pay attention to how an
+   *   existing attribute value should interact with the new attribute value
+   *   when you are creating a new selector class.  You can look to
+   *   \AKlump\DomTestingSelectors\Selector\ClassSelector as an example of how
+   *   this was implemented for the "class" attribute with filtering and
+   *   appending taking place.
+   *
+   * @return string
+   *   The attribute value to be used in the DOM.
    */
-  private $targetElementName;
-
   public function getAttributeValue(string $current_value = ''): string {
-    $value = $this->targetElementName;
-    if (empty($value)) {
+
+    // The name MUST be present at this point.
+    $name = $this->getName();
+    if (empty($name)) {
       throw new UnnamedSelectorException();
     }
-    if (!empty($this->targetElementGroup)) {
-      $value = $this->targetElementGroup . "__$value";
-    }
 
-    return $value;
+    $value = static::VALUE_PREFIX;
+    $group = $this->getGroup();
+    if ($group) {
+      $value .= $group . static::GROUP_NAME_SEPARATOR;
+    }
+    $value .= $name;
+
+    return $value . static::VALUE_SUFFIX;
   }
 
   /**

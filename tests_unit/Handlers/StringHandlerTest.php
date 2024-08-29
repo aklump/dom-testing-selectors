@@ -16,7 +16,6 @@ use PHPUnit\Framework\TestCase;
  */
 class StringHandlerTest extends TestCase {
 
-
   public function dataFortestAppliesProvider() {
     $tests = [];
     $tests[] = [
@@ -56,7 +55,7 @@ class StringHandlerTest extends TestCase {
     }
 
     $this->expectException(MismatchedHandlerException::class);
-    $handler->addTestingSelectorToElement($expected, new DataTestSelector());
+    $handler->setTestingSelectorOnElement($expected, new DataTestSelector());
   }
 
   public function dataForTestHandleProvider() {
@@ -86,12 +85,14 @@ class StringHandlerTest extends TestCase {
   /**
    * @dataProvider dataForTestHandleProvider
    */
-  public function testAddTestingSelectorToElement(string $xml, string $name, string $expected_data_test, string $expected_class) {
-    //    (new StringHandler())->addTestingSelectorToElement($xml, (new DataTestSelector())->setName($name));
-    //    $this->assertSame($expected_data_test, $xml);
+  public function testsetTestingSelectorOnElement(string $xml, string $name, string $expected_data_test, string $expected_class) {
+    $element1 = $xml;
+    (new StringHandler())->setTestingSelectorOnElement($element1, (new DataTestSelector())->setName($name));
+    $this->assertSame($expected_data_test, $element1);
 
-    (new StringHandler())->addTestingSelectorToElement($xml, (new ClassSelector())->setName($name));
-    $this->assertSame($expected_class, $xml);
+    $element2 = $xml;
+    (new StringHandler())->setTestingSelectorOnElement($element2, (new ClassSelector())->setName($name));
+    $this->assertSame($expected_class, $element2);
   }
 
 }

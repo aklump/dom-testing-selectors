@@ -31,7 +31,7 @@ class StringHandler implements HandlerInterface {
     return (bool) $this->getDOMElement($element);
   }
 
-  public function addTestingSelectorToElement(&$element, ElementSelectorInterface $selector): void {
+  public function setTestingSelectorOnElement(&$element, ElementSelectorInterface $selector): void {
     if (!$this->canHandle($element)) {
       throw new MismatchedHandlerException();
     }
