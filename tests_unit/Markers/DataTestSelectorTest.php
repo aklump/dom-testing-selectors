@@ -30,7 +30,7 @@ class DataTestSelectorTest extends TestCase {
   public function testGroupNamingConventions(string $subject, string $expected) {
     $result = (new DataTestSelector())->setGroup($subject)
       ->setName('foo')
-      ->getAttributeValue();
+      ->getAttributeValue('');
     $this->assertSame("{$expected}__foo", $result);
   }
 
@@ -40,7 +40,7 @@ class DataTestSelectorTest extends TestCase {
   public function testNameNamingConventions(string $subject, string $expected) {
     $result = (new DataTestSelector())
       ->setName($subject)
-      ->getAttributeValue();
+      ->getAttributeValue('');
     $this->assertSame($expected, $result);
   }
 
@@ -50,6 +50,6 @@ class DataTestSelectorTest extends TestCase {
       ->setGroup('fruits')
       ->setName('kiwi');
     $this->assertSame('data-test', $marker->getAttributeName());
-    $this->assertSame('fruits__kiwi', $marker->getAttributeValue());
+    $this->assertSame('fruits__kiwi', $marker->getAttributeValue(''));
   }
 }

@@ -66,23 +66,9 @@ abstract class AbstractSelector implements ElementSelectorInterface {
   }
 
   /**
-   * Get the value side of the DOM attribute assignment with testing selector.
-   *
-   * @param string $current_value
-   *   For most attributes, you will ignore this value.  However with the
-   *   "class" attribute you will not; in that case you must 1) remove an
-   *   existing testing selector class and 2) append the new testing selector
-   *   classname, preserving the other classes as well.  Pay attention to how an
-   *   existing attribute value should interact with the new attribute value
-   *   when you are creating a new selector class.  You can look to
-   *   \AKlump\DomTestingSelectors\Selector\ClassSelector as an example of how
-   *   this was implemented for the "class" attribute with filtering and
-   *   appending taking place.
-   *
-   * @return string
-   *   The attribute value to be used in the DOM.
+   * {@inheritdoc}
    */
-  public function getAttributeValue(string $current_value = ''): string {
+  public function getAttributeValue(string $current_value): string {
 
     // The name MUST be present at this point.
     $name = $this->getName();

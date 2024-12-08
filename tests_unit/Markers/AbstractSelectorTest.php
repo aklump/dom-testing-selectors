@@ -19,7 +19,7 @@ class AbstractSelectorTest extends TestCase {
 
   public function testGetAttributeValueBeforeSetThrows() {
     $this->expectException(UnnamedSelectorException::class);
-    (new TestableSelector())->getAttributeValue();
+    (new TestableSelector())->getAttributeValue('');
   }
 
   public function testGetAttributeMethods() {
@@ -28,7 +28,7 @@ class AbstractSelectorTest extends TestCase {
       ->setGroup('fruits')
       ->setName('banana');
     $this->assertSame('data-testable-selector', $marker->getAttributeName());
-    $this->assertSame('fruits__banana', $marker->getAttributeValue());
+    $this->assertSame('fruits__banana', $marker->getAttributeValue(''));
   }
 }
 

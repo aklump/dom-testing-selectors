@@ -52,7 +52,7 @@ class ClassSelectorTest extends TestCase {
   public function testGroupNamingConventions(string $subject, string $expected) {
     $result = (new ClassSelector())->setGroup($subject)
       ->setName('foo')
-      ->getAttributeValue();
+      ->getAttributeValue('');
     $this->assertSame(ClassSelector::VALUE_PREFIX . "$expected--foo", $result);
   }
 
@@ -62,7 +62,7 @@ class ClassSelectorTest extends TestCase {
   public function testNameNamingConventions(string $subject, string $expected) {
     $result = (new ClassSelector())
       ->setName($subject)
-      ->getAttributeValue();
+      ->getAttributeValue('');
     $this->assertSame(ClassSelector::VALUE_PREFIX . "$expected", $result);
   }
 
@@ -72,7 +72,7 @@ class ClassSelectorTest extends TestCase {
       ->setGroup('fruits')
       ->setName('kiwi');
     $this->assertSame('class', $marker->getAttributeName());
-    $this->assertSame(ClassSelector::VALUE_PREFIX . 'fruits--kiwi', $marker->getAttributeValue());
+    $this->assertSame(ClassSelector::VALUE_PREFIX . 'fruits--kiwi', $marker->getAttributeValue(''));
   }
 
 }

@@ -21,7 +21,7 @@ final class ClassSelector extends AbstractSelector {
   /**
    * {@inheritdoc}
    */
-  public function getAttributeValue(string $current_value = ''): string {
+  public function getAttributeValue(string $current_value): string {
     $current_value = $this->filterExistingTestingSelectors($current_value);
     $value = parent::getAttributeValue($current_value);
 
