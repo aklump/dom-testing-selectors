@@ -129,7 +129,19 @@ class MyArrayHandler implements \AKlump\DomTestingSelectors\Handler\HandlerInter
   }
 
   public function setTestingSelectorOnElement(&$element, \AKlump\DomTestingSelectors\Selector\ElementSelectorInterface $selector): void {
-    $element['attributes'][$selector->getAttributeName()] = $selector->getAttributeValue();
+    $attribute_name = $selector->getAttributeName();
+    $current_value = $element['attributes'][$attribute_name] ?? '';
+    if ('class' === $attribute_name) {
+      if (is_array($current_value)) {
+        // Current value must be a string, and "class" should be an array.  If
+        // so, cast it here.
+        $current_value = implode(' ', $current_value);
+      }
+      $element['attributes'][$attribute_name] = [$selector->getAttributeValue($current_value)];
+    }
+    else {
+      $element['attributes'][$attribute_name] = $selector->getAttributeValue($current_value);
+    }
   }
 }
 ```
