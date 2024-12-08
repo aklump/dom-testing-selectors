@@ -31,7 +31,7 @@ class ReadMeTest extends TestCase {
 
   public function testReadMeNamingConvention() {
     $selector = new \AKlump\DomTestingSelectors\Selector\DataTestSelector();
-    $attribute = $selector('A.StrangeSelector string---NAME');
+    $attribute = $selector('A.StrangeSelector string---NAME', '');
     // $attribute === 'data-test="a_strangeselector_string_name"
 
     $this->assertSame('data-test="a_strange_selector_string_name"', $attribute);
@@ -100,8 +100,8 @@ class ReadMeTest extends TestCase {
 
   public function testReadMeExampleSelector() {
     $test_selector = new \AKlump\DomTestingSelectors\Selector\DataTestSelector();
-    $username_selector = $test_selector('username');
-    $password_selector = $test_selector('password');
+    $username_selector = $test_selector('username', '');
+    $password_selector = $test_selector('password', '');
 
     // $username_selector === 'data-test="username"'
     // $password_selector === 'data-test="password"'
@@ -113,8 +113,8 @@ class ReadMeTest extends TestCase {
   public function testReadMeExampleSelectorWithGroup() {
     $test_selector = new \AKlump\DomTestingSelectors\Selector\DataTestSelector();
     $test_selector->setGroup('login');
-    $username_selector = $test_selector('username');
-    $password_selector = $test_selector('password');
+    $username_selector = $test_selector('username', '');
+    $password_selector = $test_selector('password', '');
 
     // $username_selector === 'data-test="login__username"'
     // $password_selector === 'data-test="login__password"'

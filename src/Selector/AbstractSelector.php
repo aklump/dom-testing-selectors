@@ -89,15 +89,15 @@ abstract class AbstractSelector implements ElementSelectorInterface {
   /**
    * Return the string testing selector ready for HTML.
    *
-   * @param string $target_element_name
-   * @param string $current_attribute_value
+   * @param string $attribute_name
+   * @param string $current_value
    *
    * @return string
    */
-  public function __invoke(string $target_element_name, string $current_attribute_value = ''): string {
-    $this->setName($target_element_name);
+  public function __invoke(string $attribute_name, string $current_value): string {
+    $this->setName($attribute_name);
 
-    return sprintf('%s="%s"', $this->getAttributeName(), $this->getAttributeValue($current_attribute_value));
+    return sprintf('%s="%s"', $this->getAttributeName(), $this->getAttributeValue($current_value));
   }
 
   /**

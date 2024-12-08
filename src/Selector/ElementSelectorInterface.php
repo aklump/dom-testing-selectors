@@ -5,12 +5,12 @@ namespace AKlump\DomTestingSelectors\Selector;
 interface ElementSelectorInterface {
 
   /**
-   * @param string $target_element_name
+   * @param string $attribute_name
    *
    * @return string
-   *   The stringified version of the selector using $target_element_name.
+   *   The stringified version of the selector using $attribute_name.
    */
-  public function __invoke(string $target_element_name): string;
+  public function __invoke(string $attribute_name, string $current_value): string;
 
   /**
    * Set the selector group.

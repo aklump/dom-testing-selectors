@@ -12,7 +12,11 @@ use PHPUnit\Framework\TestCase;
 class AbstractSelectorTest extends TestCase {
 
   public function testInvoke() {
-    $selector = (new TestableSelector())('login');
+    $selector = (new TestableSelector())('login', '');
+    $this->assertIsString($selector);
+    $this->assertSame('data-testable-selector="login"', $selector);
+
+    $selector = (new TestableSelector())('login', 'throw_away');
     $this->assertIsString($selector);
     $this->assertSame('data-testable-selector="login"', $selector);
   }

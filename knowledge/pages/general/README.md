@@ -42,10 +42,10 @@ describe('The main page', () => {
 ```php
 $test_selector = new \AKlump\DomTestingSelectors\Selector\DataTestSelector();
 
-$username_selector = $test_selector('username');
+$username_selector = $test_selector('username', '');
 // $username_selector === 'data-test="username"'
 
-$password_selector = $test_selector('password');
+$password_selector = $test_selector('password', '');
 // $password_selector === 'data-test="password"'
 ```
 
@@ -54,7 +54,7 @@ You may also add a group to the selectors, which will prefix the attribute value
 ```php
 $test_selector->setGroup('login');
 
-$username_selector = $test_selector('username');
+$username_selector = $test_selector('username', '');
 // $username_selector === 'data-test="login__username"'
 ```
 
@@ -64,7 +64,7 @@ Be aware that in an effort to reduce confusion and errors, the provided `\AKlump
 
 ```php
 $selector = new \AKlump\DomTestingSelectors\Selector\DataTestSelector();
-$attribute = $selector('A.StrangeSelector string---NAME');
+$attribute = $selector('A.StrangeSelector string---NAME', '');
 // $attribute === 'data-test="a_strange_selector_string_name"
 ```
 
