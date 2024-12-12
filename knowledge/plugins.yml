@@ -9,6 +9,7 @@ badges:
   - language
   - license
 funding:
+  dot_github: ../
   channels:
     github: [ aklump ]
     buy_me_a_coffee: aklump
