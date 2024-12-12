@@ -5,9 +5,10 @@ tags: ''
 
 # {{ book.title }}
 
-{{ badges }}
 
 ![hero](../../images/testing_selectors.jpg)
+
+{{ badges }}
 
 **This library offers a PHP solution designed to add specific markup to your DOM for testing purposes.** By default, it configures a `data-test` attribute for DOM elements, as shown in the examples. The library is intended to be integrated into a server-side rendering pipeline, which generates your markup.
 
