@@ -1,8 +1,8 @@
 # DOM Testing Selectors
 
-[![Packagist Page](https://badgen.net/packagist/name/aklump/dom-testing-selectors)](https://www.packagist.org/packages/aklump/dom-testing-selectors) ![](https://badgen.net/packagist/php/aklump/dom-testing-selectors) ![](https://badgen.net/github/license/aklump/dom-testing-selectors)
-
 ![hero](images/testing_selectors.jpg)
+
+[![Packagist Page](https://badgen.net/packagist/name/aklump/dom-testing-selectors)](https://www.packagist.org/packages/aklump/dom-testing-selectors) ![](https://badgen.net/packagist/php/aklump/dom-testing-selectors) ![](https://badgen.net/github/license/aklump/dom-testing-selectors)
 
 **This library offers a PHP solution designed to add specific markup to your DOM for testing purposes.** By default, it configures a `data-test` attribute for DOM elements, as shown in the examples. The library is intended to be integrated into a server-side rendering pipeline, which generates your markup.
 
