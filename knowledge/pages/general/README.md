@@ -203,3 +203,5 @@ $factory->getHandler($element1)->setTestingSelectorOnElement($element1, $selecto
 $factory->getHandler($element2)->setTestingSelectorOnElement($element2, $selector);
 // $element2 === 'lorem ipsum dolar'
 ```
+
+{{ funding|raw }}
