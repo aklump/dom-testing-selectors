@@ -4,3 +4,7 @@ composer: { }
 image:
   max_width: 830
   pixel_density: 2
+badges:
+  - website
+  - language
+  - license
